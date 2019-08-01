@@ -8,7 +8,15 @@ import com.ppb.giaco.enums.MatchPeriod;
 
 
 /**
- * Match Time Parser Class which builds a MatchTime class from raw strings
+ * Match Time Parser Class which builds a MatchTime class from raw strings.
+ * Input validation is made by Regex pattern matching.
+ * Valid input: [SHORT_MATCH_TIME] MM:SS.mmm
+ * 
+ * When a given period goes into additional time (i.e. > 45:00.000 for first half, > 90.00.000 for the second
+ * half), the added minutes and seconds are represented separately in the format
+ * normalTimeMinutes:normalTimeSeconds +additionalMinutes:additionalSeconds - period
+ * Any input which does not meet the required input format should result in an output of INVALID
+ * 
  * @author Giacomo
  *
  */
@@ -18,7 +26,8 @@ public class MatchTimeParser {
 	 * Regex pattern for valid input match time
 	 * [ + ENUM + ] + HH:MM:mmm
 	 */
-	private static final String MATCH_TIME_INPUT_FORMAT = "\\[(FT|H1|H2|HT|PM)\\] {1}([0-9]|[1-9][0-9]):([0-5][0-9])\\.([0-9][0-9][0-9])";
+	private static final String MATCH_TIME_INPUT_FORMAT = 
+			"\\[(FT|H1|H2|HT|PM)\\] {1}([0-9]|[1-9][0-9]):([0-5][0-9])\\.([0-9][0-9][0-9])";
 
 	private Pattern pattern;
 	
@@ -55,16 +64,30 @@ public class MatchTimeParser {
 		
 		int minutes = 0;
 		if (matchTime.length() == 14) {
-			minutes = Integer.parseInt(matchTime.substring(matchTime.length()-9, matchTime.length()-7));
+			minutes = parseIntFromSubstring(matchTime, 9, 7);
 		} else {
-			minutes = Integer.parseInt(matchTime.substring(matchTime.length()-8, matchTime.length()-7));
+			minutes = parseIntFromSubstring(matchTime, 8, 7);
 		}
-		int seconds = Integer.parseInt(matchTime.substring(matchTime.length()-6, matchTime.length()-4));
-		int milliseconds = Integer.parseInt(matchTime.substring(matchTime.length() -3, matchTime.length()));
+		int seconds = parseIntFromSubstring(matchTime, 6, 4);
+		int milliseconds = parseIntFromSubstring(matchTime, 3, 0);
 		
 		MatchTime matchTimeObj = new MatchTime(matchPeriod, minutes, seconds, milliseconds);
 		
 		return matchTimeObj.toString();
 	}
 
+	/**
+	 * 
+	 * @param inputString
+	 * @param rightOffsetStart
+	 * @param rightOffsetEnd
+	 * @return substring with right offset
+	 */
+	private int parseIntFromSubstring(String inputString, int rightOffsetStart, int rightOffsetEnd) {
+		return Integer.parseInt(
+				inputString.substring(
+						inputString.length()-rightOffsetStart, 
+						inputString.length()-rightOffsetEnd)
+				);
+	}
 }

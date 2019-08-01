@@ -4,7 +4,17 @@ package com.ppb.giaco;
 import com.ppb.giaco.enums.MatchPeriod;
 
 /**
- * Class representing a Match Time.
+ * Class representing a Match Time. Match Time is represented as: "[PERIOD] MM:SS:mmm"
+ * Examples of Match Time: [PM] 0:00.000, [H1] 0:15.025, [H1] 3:07.513
+ * Where first element is the short form for the Period.
+ * 
+ * Period: Short form/Long Form
+ * PM	PRE_MATCH
+ * H1	FIRST_HALF
+ * HT	HALF_TIME
+ * H2	SECOND_HALF
+ * FT	FULL_TIME
+ * 
  * @author Giacomo
  *
  */
