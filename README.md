@@ -8,6 +8,7 @@ See "Coding Assignment for Giacomo.pdf"
 ### Brief description
 
 An Eclipse 2019-06 project with Maven Nature.
+JDK 11 have to be used.
 
 JUnit Jupiter is used for Automated Testing.
 
