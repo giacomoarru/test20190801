@@ -8,7 +8,8 @@ See "Coding Assignment for Giacomo.pdf"
 ### Brief description
 
 Project with Maven dependency management.
-JDK 11 have to be used.
+
+Requires JDK 11.
 
 JUnit Jupiter is used for Automated Testing.
 
