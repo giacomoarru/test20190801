@@ -59,13 +59,16 @@ public class MatchTime {
 		return String.format("%02d", timeUnit);
 	}
 	
+	/**
+	 * Returns a String representing formatted MatchTime
+	 */
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		boolean additional = checkAdditionalTime();
+		// checks if additional time is needed and initializes related variables
+		boolean additional = checkAndCalcAdditionalTime();
 			
-		
 		stringBuilder.append(formatTimeUnit(minutes) 
 				+ ":" + formatTimeUnit(seconds));
 		
@@ -79,7 +82,12 @@ public class MatchTime {
 		return stringBuilder.toString();
 	}
 
-	private boolean checkAdditionalTime() {
+	/**
+	 * Checks if additional time is needed and initializes related variables
+	 * additionalMinutes, additionalSeconds
+	 * @return true if additional time is needed
+	 */
+	private boolean checkAndCalcAdditionalTime() {
 		// H1 - detects additional time
 		if (period.equals(MatchPeriod.H1) && 
 				(minutes >= HALF_TIME_LENGTH
